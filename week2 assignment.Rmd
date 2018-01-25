@@ -1,0 +1,37 @@
+<center>
+---
+title: "French cities with more than 100 000 inhabitants"
+author: "Davy Meesemaecker"
+date: "25/1/2018"
+output: html_document
+---
+</center>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<center>
+This map used the population data from <a href="http://sql.sh/736-base-donnees-villes-francaises">Sql.sh</a>. Just clic on one of the blue circles to get the population of the city
+</center>
+
+<center>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(leaflet)
+villes <- read.csv("villes_france.csv")
+villes <- villes[, c("Ozan", "X618", "X4.91667", "X46.3833")]
+colnames(villes) <- c("Ville", "Population_2009", "lng", "lat")
+villes2 <- villes[villes$Population_2009 > 100000, ]
+villes3 <- villes2[!villes2$lng < -10, ]
+villes4 <- villes3[!villes3$lat < 30, ]
+
+villes4 %>%
+        leaflet() %>%
+        addTiles() %>%
+        addCircleMarkers(popup = paste("Population of",
+                                       villes4$Ville,
+                                       "in 2009 :", villes4$Population_2009,
+                                       "inhabitants"),
+                         clusterOptions = markerClusterOptions(),
+                         weight = 1, radius = villes4$Population_2009/20000)
+```
+</center>
