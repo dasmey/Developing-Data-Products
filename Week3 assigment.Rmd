@@ -1,0 +1,81 @@
+---
+title: "Week 3 assignment"
+author: "Davy Meesemaecker"
+date: "2/2/2018"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Short introduction
+
+For the assignment, we'll perform basic exploratory analysis through the **diamonds** dataset.
+
+## First series of plots with plotly
+
+```{r message=FALSE, warning=FALSE}
+library(plotly)
+library(ggplot2)
+data("diamonds")
+set.seed(1000)
+d <- diamonds[sample(nrow(diamonds), 1000), ]
+```
+
+```{r eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+p1 <- plot_ly(d, x= ~carat, y = ~price, type = "scatter", 
+              color = ~factor(cut), size= ~carat) %>%
+        layout(title = "carat vs price by cut (left) and color (right) factor")
+p2 <- plot_ly(d, x= ~carat, y = ~price, type = "scatter",
+              color = ~factor(color), size= ~carat)
+p <- subplot(p1, p2, nrows = 2, margin = 0.05)
+p
+```
+
+## Second series of plots with plotly
+
+```{r eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+q1 <- plot_ly(d, x = ~carat, type = "histogram") %>%
+        layout(title = "carat, price, cut & color histograms")
+q2 <- plot_ly(d, x = ~price, type = "histogram")
+q3 <- plot_ly(d, x = ~cut, type = "histogram")
+q4 <- plot_ly(d, x = ~color, type = "histogram")
+q <- subplot(q1, q2, q3, q4) %>%
+        layout(showlegend = FALSE)
+q
+```
+
+## Code used part 1
+
+```{r eval=FALSE, echo= TRUE, paged.print=TRUE}
+library(plotly)
+library(ggplot2)
+data("diamonds")
+set.seed(1000)
+d <- diamonds[sample(nrow(diamonds), 1000), ]
+# first series
+p1 <- plot_ly(d, x= ~carat, y = ~price, type = "scatter", 
+              color = ~factor(cut), size= ~carat) %>%
+        layout(title = "carat vs price by cut (left) and color (right) factor")
+p2 <- plot_ly(d, x= ~carat, y = ~price, type = "scatter",
+              color = ~factor(color), size= ~carat)
+p <- subplot(p1, p2, nrows = 2, margin = 0.05)
+p
+```
+
+## Code used part 2
+
+```{r eval=FALSE, echo= TRUE, paged.print=TRUE}
+# second series
+q1 <- plot_ly(d, x = ~carat, type = "histogram") %>%
+        layout(title = "carat, price, cut & color histograms")
+q2 <- plot_ly(d, x = ~price, type = "histogram")
+q3 <- plot_ly(d, x = ~cut, type = "histogram")
+q4 <- plot_ly(d, x = ~color, type = "histogram")
+q <- subplot(q1, q2, q3, q4) %>%
+        layout(showlegend = FALSE)
+q
+```
