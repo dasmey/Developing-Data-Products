@@ -51,6 +51,6 @@ The application can be found here :
 
 You can also find the code here :
 
-<a href="https://dasmey.shinyapps.io/final_project/">Code</a>
+<a href="https://github.com/dasmey/Developing-Data-Products/tree/gh-pages/final_project">Code</a>
 
 
